@@ -39,7 +39,6 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.D))
             turnRight = false;
 
-        
 
     }
 
