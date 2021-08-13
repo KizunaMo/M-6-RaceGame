@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody rb;
     [SerializeField] private float forwardForce = 100f;
 
-
+    
 
 
     [Header("Player Control")]
@@ -17,9 +18,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float turnSmoothTime = 0.1f;
     [SerializeField] private float turnSmoothVelocity;
 
+
+
     private void Start()
     {
+        
         rb = GetComponent<Rigidbody>();
+       
     }
 
     private void Update()
@@ -33,20 +38,20 @@ public class PlayerMovement : MonoBehaviour
             turnRight = true;
         if (Input.GetKeyUp(KeyCode.D))
             turnRight = false;
+
+        
+
     }
 
 
     private void FixedUpdate()
     {
-        
-
         Movement();
-
-
     }
 
     public void Movement()
     {
+
         rb.AddForce(0, 0, forwardForce * Time.deltaTime, ForceMode.Force);
 
         if (turnLeft)
@@ -74,6 +79,11 @@ public class PlayerMovement : MonoBehaviour
 
         }
     }
+
+    
+
+
+   
 
 
 }

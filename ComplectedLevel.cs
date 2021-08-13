@@ -11,11 +11,13 @@ public class ComplectedLevel : MonoBehaviour
     [SerializeField] private int levelUnlock = 2;//這是需要傳到PlayerPrefs裡面的
 
 
+
     // Start is called before the first frame update
     public void Continue()
     {
         PlayerPrefs.SetInt("levelReached", levelUnlock);
         sceneFader.FadeTo(nextLevel);
+        Time.timeScale = 1f;
     }
 
 
@@ -23,6 +25,7 @@ public class ComplectedLevel : MonoBehaviour
     public void MainMenu()
     {
         sceneFader.FadeTo(mainMenu);
+        Time.timeScale = 1f;
     }
 
 
