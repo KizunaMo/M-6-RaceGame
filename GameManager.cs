@@ -7,8 +7,9 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [Header("Setting")]
-    [SerializeField] private GameObject ComplectedLevelUI;
+    [SerializeField] private GameObject complectedUI;
     [SerializeField] private GameObject pauseMenu;
+
 
 
     public static GameManager instance;
@@ -64,7 +65,6 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
-    
 
 
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ComplectedLevel : MonoBehaviour
 {
@@ -20,13 +21,16 @@ public class ComplectedLevel : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-
-
     public void MainMenu()
     {
         sceneFader.FadeTo(mainMenu);
         Time.timeScale = 1f;
     }
+
+    
+        
+    
+
 
 
 }

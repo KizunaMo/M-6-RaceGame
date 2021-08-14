@@ -6,24 +6,30 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody rb;
-    [SerializeField] private float forwardForce = 100f;
-
-    
+    private BoxCollider coll;
+   
+    [Header("Setting")]
+    [SerializeField] private GameObject deadEffect;
 
 
     [Header("Player Control")]
+    [SerializeField] private float forwardForce = 100f;
     [SerializeField] private bool turnLeft;
     [SerializeField] private bool turnRight;
     [SerializeField] private float turnSpeed = 100f;
     [SerializeField] private float turnSmoothTime = 0.1f;
     [SerializeField] private float turnSmoothVelocity;
 
+    [Header("Status")]
+    public static bool playerDead;
 
 
     private void Start()
     {
         
         rb = GetComponent<Rigidbody>();
+        coll = GetComponent<BoxCollider>();
+        playerDead = false;
        
     }
 
@@ -78,6 +84,25 @@ public class PlayerMovement : MonoBehaviour
 
         }
     }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+        {
+            Debug.Log(collision.collider.gameObject.layer);
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        playerDead = true;
+        rb.AddForce(new Vector3(0f, 30f, 0f), ForceMode.Impulse);
+        GameObject effectIn = (GameObject)Instantiate(deadEffect, transform.position, Quaternion.identity);
+        forwardForce = 0f;
+    }
+
 
     
 

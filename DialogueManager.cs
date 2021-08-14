@@ -34,6 +34,8 @@ public class DialogueManager : MonoBehaviour
         foreach (string sentence in dialogue.sentences)
         {
             sentences.Enqueue(sentence);
+            //enqueue：將資料放入佇列尾端。(註：C++中用push、Java用offer、也有add等不同的用字)
+
         }
 
         DisplayNextSentence();
@@ -51,8 +53,9 @@ public class DialogueManager : MonoBehaviour
         }
 
         string sentence = sentences.Dequeue();
+        //dequeue：取出佇列前端之資料。(註：C++中用pop、Java用poll、也有remove等不同的用字)
 
-        
+
         Debug.Log(sentence);
         StopAllCoroutines();
         StartCoroutine(TpyeSentence(sentence));
