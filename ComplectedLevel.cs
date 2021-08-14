@@ -27,9 +27,11 @@ public class ComplectedLevel : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    
-        
-    
+  
+
+
+
+
 
 
 
