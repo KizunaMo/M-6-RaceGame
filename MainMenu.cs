@@ -16,17 +16,24 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private SceneFader sceneFader;
     [SerializeField] private GameObject confirmPanel;
 
+    [Header("AudioSetting")]
+    [SerializeField] private AudioManager audioManager;
+    [SerializeField] private string menuAudio = "Menu";
 
-
+    void Start()
+    {
+        audioManager.Play(menuAudio);
+    }
 
     public void LoadToLoadMenu()
     {
+        audioManager.Play(menuAudio);
         sceneFader.FadeTo(loadLoadMenu);
     }
 
     public void LoadToMainMenu()
     {
-
+        audioManager.Play(menuAudio);
         sceneFader.FadeTo(loadMainMenu);
     }
 

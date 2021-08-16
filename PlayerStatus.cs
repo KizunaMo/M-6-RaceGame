@@ -9,6 +9,9 @@ public class PlayerStatus : MonoBehaviour
     [Header("Setting")]
     [SerializeField] private GameObject deadUI;
 
+    [Header("AudioSetting")]
+    [SerializeField] private AudioManager audioManager;
+    [SerializeField] private string failAudio = "Fail";
 
     public void OnCollisionEnter(Collision collision)
     {
@@ -20,6 +23,7 @@ public class PlayerStatus : MonoBehaviour
 
     public void PlayerDead()
     {
+        audioManager.Play(failAudio);
         deadUI.SetActive(true);
     }
 

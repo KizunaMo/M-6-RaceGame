@@ -12,7 +12,6 @@ public class MainCameraController : MonoBehaviour
     [SerializeField] private Vector3 playerPosition;
 
     private Rigidbody rb;
-    private float moveSpeed = 30f;
 
 
     private void Start()

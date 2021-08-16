@@ -11,6 +11,8 @@ public class ComplectedLevel : MonoBehaviour
     [SerializeField] private string nextLevel = "level02";
     [SerializeField] private int levelUnlock = 2;//這是需要傳到PlayerPrefs裡面的
 
+    
+
 
 
     // Start is called before the first frame update

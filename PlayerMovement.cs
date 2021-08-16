@@ -7,9 +7,11 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody rb;
     private BoxCollider coll;
-   
+
     [Header("Setting")]
     [SerializeField] private GameObject deadEffect;
+    [SerializeField] private AudioManager audioManager;
+    [SerializeField] private string playerDeadAudio = "PlayerDead";
 
 
     [Header("Player Control")]
@@ -17,8 +19,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool turnLeft;
     [SerializeField] private bool turnRight;
     [SerializeField] private float turnSpeed = 100f;
-    [SerializeField] private float turnSmoothTime = 0.1f;
     [SerializeField] private float turnSmoothVelocity;
+
+    [Header("Rotation")]
+    [SerializeField] private float rotationSpeed;
+    [SerializeField] private Transform leftRotation;
+    [SerializeField] private Transform rightRotation;
+    [SerializeField] private Transform partToRotation;
 
     [Header("Status")]
     public static bool playerDead;
@@ -30,7 +37,6 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         coll = GetComponent<BoxCollider>();
         playerDead = false;
-       
     }
 
     private void Update()
@@ -59,28 +65,38 @@ public class PlayerMovement : MonoBehaviour
 
         rb.AddForce(0, 0, forwardForce * Time.deltaTime, ForceMode.Force);
 
-        if (turnLeft)
-        {
+        //float horizaontalInput = Input.GetAxisRaw("Horizontal");
+        //Vector3 movementDirection = new Vector3(horizaontalInput, 0, 0);
+        //movementDirection.Normalize();
+        //if (movementDirection != Vector3.zero && yRotation < 45f && yRotation > 314f)
+        //{
+        //    Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+        //    transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
             
+        //    //transform.rotation = Quaternion.Euler(0, yRotation, 0);
+        //}
+        if (turnLeft && !playerDead)
+        {
             rb.AddForce(-turnSpeed * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
 
-            //第三人稱轉向(Y軸)
-            float targetAngle = Mathf.Atan2(rb.transform.position.x, rb.transform.position.z) * Mathf.Rad2Deg;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity , turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
-
+            
+            Vector3 dir = leftRotation.position - transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(dir);
+            Vector3 rotation = Quaternion.Lerp(partToRotation.rotation, lookRotation, Time.deltaTime * rotationSpeed).eulerAngles;
+            partToRotation.rotation = Quaternion.Euler(0f, rotation.y, 0f);
+            Debug.Log(rotation.y);
 
         }
-        if (turnRight)
+        if (turnRight && !playerDead)
         {
             rb.AddForce(turnSpeed * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
 
-           
-            float targetAngle = Mathf.Atan2(rb.transform.position.x, rb.transform.position.z) * Mathf.Rad2Deg;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
+            Vector3 dir = rightRotation.position - transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(dir);
+            Vector3 rotation = Quaternion.Lerp(partToRotation.rotation, lookRotation, Time.deltaTime * rotationSpeed).eulerAngles;
+            partToRotation.rotation = Quaternion.Euler(0f, rotation.y, 0f);
+            Debug.Log(rotation.y);
 
         }
     }
@@ -90,6 +106,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
         {
+            audioManager.Play(playerDeadAudio);
             Debug.Log(collision.collider.gameObject.layer);
             Die();
         }
@@ -102,12 +119,10 @@ public class PlayerMovement : MonoBehaviour
         GameObject effectIn = (GameObject)Instantiate(deadEffect, transform.position, Quaternion.identity);
         forwardForce = 0f;
     }
+}
 
 
     
-
-
    
 
 
-}

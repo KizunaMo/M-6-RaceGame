@@ -10,7 +10,12 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private Text nameText;
     [SerializeField] private Text dialogueText;
     [SerializeField] private Animator animator;
- 
+
+    [Header("AudioSetting")]
+    [SerializeField] private AudioManager audioManager;
+    [SerializeField] private string continueButton = "ContinueButton";
+
+
 
 
     private Queue<string> sentences;
@@ -46,12 +51,11 @@ public class DialogueManager : MonoBehaviour
 
     public void DisplayNextSentence()
     {
-        if(sentences.Count == 0)
+        if (sentences.Count == 0)
         {
             EndDialogue();
             return;
         }
-
         string sentence = sentences.Dequeue();
         //dequeue：取出佇列前端之資料。(註：C++中用pop、Java用poll、也有remove等不同的用字)
 
@@ -64,6 +68,7 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator TpyeSentence(string sentence)
     {
+        
         dialogueText.text = "";
         foreach (char letter in sentence.ToCharArray())
         {
@@ -81,5 +86,11 @@ public class DialogueManager : MonoBehaviour
         FindObjectOfType<WaittingTime>().CloseDialogueUI();
     }
 
+
+    public void ContinueSound()
+    {
+        audioManager.Play(continueButton);
+        
+    }
     
 }

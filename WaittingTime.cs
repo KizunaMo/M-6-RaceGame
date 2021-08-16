@@ -16,12 +16,25 @@ public class WaittingTime : MonoBehaviour
 
     private bool dialogueBox = true;
 
+
+
+    private int time_int;
+
     private void Start()
     {
+        //倒數
+        int time_int = 3;
+        InvokeRepeating("Timer", 1, 1);
+
         if (dialogueBox)
-        {
-            dialogueUI.SetActive(true);
-            dialogueBox = true;
+        {                        
+            if (time_int == 0)
+            {
+                dialogueUI.SetActive(true);
+                dialogueBox = true;
+            }
+            
+            
         }
         
 
@@ -79,4 +92,15 @@ public class WaittingTime : MonoBehaviour
         animatorCountDown.SetBool("isCount", true);
     }
    
+
+    public void Timer()
+    {
+        time_int -= 1;
+        if(time_int == 0)
+        {
+            CancelInvoke("Timer");
+        }
+
+
+    }
 }
